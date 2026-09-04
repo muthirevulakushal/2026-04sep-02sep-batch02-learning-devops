@@ -1,0 +1,5 @@
+langchain-community
+pypdf
+pillow
+langchain-text-splitters
+langchain-openai
