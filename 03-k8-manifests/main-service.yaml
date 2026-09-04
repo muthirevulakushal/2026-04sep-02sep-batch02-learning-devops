@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: KK-service
+  name: kkm03-service
   labels:
-    app: KK-app
+    app: kkm03-app
 spec:
   type: LoadBalancer
   selector:
-    app: KK-app
+    app: kkm03-app
   ports:
     - name: http
       port: 5000

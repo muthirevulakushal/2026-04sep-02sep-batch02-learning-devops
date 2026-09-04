@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: KK-deployment
+  name: kkm03-deployment
   labels:
-    app: KK-app
+    app: kkm03-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: KK-app
+      app: kkm03-app
   template:
     metadata:
       labels:
-        app: KK-app
+        app: kkm03-app
     spec:
       containers:
-      - name: KK-app-container
+      - name: kkm03-app-container
         image: 792172459577.dkr.ecr.us-east-1.amazonaws.com/mkk03_ecr:latest
         ports:
         - containerPort: 5000
