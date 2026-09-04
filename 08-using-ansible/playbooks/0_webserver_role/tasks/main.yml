@@ -1,0 +1,16 @@
+---
+  - name: Install Apache WebServer
+    apt:
+      name: apache2
+      state: latest
+
+  - name: Apply Page Template
+    template:
+      src: files/check.html
+      dest: /var/www/html/check.html
+
+  - name: Allow all access to tcp port 80
+    ufw:
+      rule: allow
+      port: '80'
+      proto: tcp  

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kumar-deployment
+  labels:
+    app: kumar-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kumar-app
+  template:
+    metadata:
+      labels:
+        app: kumar-app
+    spec:
+      containers:
+      - name: kumar-app-container
+        image: 792172459577.dkr.ecr.us-east-1.amazonaws.com/kumar-ecr:latest
+        ports:
+        - containerPort: 5000

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Orders - AWS Order Service</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        th {
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-processing {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-shipped {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-delivered {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-failed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .order-number {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .amount {
+            font-weight: 600;
+            color: #28a745;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            table {
+                font-size: 0.9em;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .hidden-mobile {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📋 All Orders</h1>
+        <p>Browse all orders in the system</p>
+    </div>
+
+    <div class="container">
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+
+        <div th:if="${orders} and ${orders.size()} > 0" class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Customer ID</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th class="hidden-mobile">Amount</th>
+                        <th>Status</th>
+                        <th class="hidden-mobile">Payment</th>
+                        <th class="hidden-mobile">Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="order : ${orders}">
+                        <td class="order-number" th:text="${order.orderNumber}"></td>
+                        <td th:text="${order.customerId}"></td>
+                        <td th:text="${order.productName}"></td>
+                        <td th:text="${order.quantity}"></td>
+                        <td class="hidden-mobile amount" th:text="'$' + ${#numbers.formatDecimal(order.totalAmount, 1, 2)}"></td>
+                        <td>
+                            <span class="status-badge" th:classappend="'status-' + ${order.status.toLowerCase()}" th:text="${order.status}"></span>
+                        </td>
+                        <td class="hidden-mobile">
+                            <span class="status-badge" th:classappend="'status-' + ${order.paymentStatus.toLowerCase()}" th:text="${order.paymentStatus}"></span>
+                        </td>
+                        <td class="hidden-mobile" th:text="${#dates.format(order.createdAt, 'MMM dd, yyyy')}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${!orders} or ${orders.size()} == 0" class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <h2>No Orders Found</h2>
+            <p>There are no orders in the system yet. Start by creating your first order!</p>
+            <div class="btn-group">
+                <a href="/orders/submit" class="btn btn-primary">➕ Create New Order</a>
+                <a href="/" class="btn btn-secondary">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

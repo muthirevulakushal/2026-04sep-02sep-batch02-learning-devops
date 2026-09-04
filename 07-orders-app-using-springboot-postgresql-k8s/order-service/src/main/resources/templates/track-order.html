@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Order - AWS Order Service</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .search-form input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .search-form button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .search-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .order-details {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 20px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .value {
+            color: #666;
+            word-break: break-word;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-processing {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-shipped {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-delivered {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-failed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 30px;
+            width: 2px;
+            height: 30px;
+            background: #ddd;
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-marker {
+            width: 24px;
+            height: 24px;
+            background: #667eea;
+            border: 3px solid white;
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 2px #667eea;
+        }
+
+        .timeline-content {
+            padding-top: 2px;
+        }
+
+        .timeline-content h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .timeline-content p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        @media (max-width: 600px) {
+            .detail-row {
+                grid-template-columns: 100px 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Track Your Order</h1>
+            <p>Enter your order number to track its status</p>
+        </div>
+
+        <form method="post" th:action="@{/orders/track}">
+            <div class="search-form">
+                <input type="text" name="orderNumber" placeholder="Enter Order Number (e.g., ORD-12345...)" required>
+                <button type="submit">Search</button>
+            </div>
+        </form>
+
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+
+        <div th:if="${order}" class="order-details">
+            <h3 style="margin-bottom: 20px; color: #333;">Order Details</h3>
+
+            <div class="detail-row">
+                <span class="label">Order Number:</span>
+                <span class="value" style="font-weight: 600;" th:text="${order.orderNumber}"></span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Customer ID:</span>
+                <span class="value" th:text="${order.customerId}"></span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Product:</span>
+                <span class="value" th:text="${order.productName}"></span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Quantity:</span>
+                <span class="value" th:text="${order.quantity}"></span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Total Amount:</span>
+                <span class="value" style="font-weight: 600; color: #28a745;" th:text="'$' + ${#numbers.formatDecimal(order.totalAmount, 1, 2)}"></span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Order Status:</span>
+                <span class="status-badge" th:classappend="'status-' + ${order.status.toLowerCase()}" th:text="${order.status}"></span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Payment Status:</span>
+                <span class="status-badge" th:classappend="'status-' + ${order.paymentStatus.toLowerCase()}" th:text="${order.paymentStatus}"></span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Created:</span>
+                <span class="value" th:text="${#dates.format(order.createdAt, 'MMM dd, yyyy HH:mm:ss')}"></span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Last Updated:</span>
+                <span class="value" th:text="${#dates.format(order.updatedAt, 'MMM dd, yyyy HH:mm:ss')}"></span>
+            </div>
+
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #ddd;">
+                <h4 style="color: #333; margin-bottom: 15px;">📍 Order Timeline</h4>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>Order Created</h4>
+                            <p th:text="${#dates.format(order.createdAt, 'MMM dd, yyyy HH:mm')}"></p>
+                        </div>
+                    </div>
+                    <div class="timeline-item" th:if="${order.paymentStatus.toString() != 'PENDING'}">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>Payment <span th:text="${order.paymentStatus.toString().toLowerCase()}"></span></h4>
+                            <p th:text="${#dates.format(order.updatedAt, 'MMm dd, yyyy HH:mm')}"></p>
+                        </div>
+                    </div>
+                    <div class="timeline-item" th:if="${order.status.toString() == 'CONFIRMED'}">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>Order Confirmed</h4>
+                            <p th:text="${#dates.format(order.updatedAt, 'MMM dd, yyyy HH:mm')}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <a href="/orders/submit" class="btn btn-primary">➕ New Order</a>
+            <a href="/" class="btn btn-secondary">← Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

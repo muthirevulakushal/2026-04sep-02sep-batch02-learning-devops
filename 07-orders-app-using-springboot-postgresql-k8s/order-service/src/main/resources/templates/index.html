@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Order Service</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .logo {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .nav-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-right: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">📦</div>
+            <h1>AWS Order Service</h1>
+            <p>Integrated with PostgreSQL, Kafka, and Kubernetes</p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="/orders/submit" class="btn btn-primary">Create New Order</a>
+            <a href="/orders/track" class="btn btn-primary">Track Order</a>
+            <a href="/orders/list" class="btn btn-secondary">View All Orders</a>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <h3>✅ AWS Integrated</h3>
+                <p>Seamlessly integrated with AWS RDS PostgreSQL database for reliable data storage.</p>
+                <span class="badge">PostgreSQL 16</span>
+                <span class="badge">AWS RDS</span>
+            </div>
+
+            <div class="feature">
+                <h3>🚀 Event-Driven</h3>
+                <p>Real-time order processing using Apache Kafka for event streaming and async operations.</p>
+                <span class="badge">Kafka 7.7</span>
+                <span class="badge">Event Stream</span>
+            </div>
+
+            <div class="feature">
+                <h3>☸️ Kubernetes Ready</h3>
+                <p>Production-ready application designed for Kubernetes deployment with proper health checks.</p>
+                <span class="badge">K8s</span>
+                <span class="badge">Docker</span>
+            </div>
+
+            <div class="feature">
+                <h3>💼 Order Management</h3>
+                <p>Complete order lifecycle management with payment processing and status tracking.</p>
+                <span class="badge">Spring Boot</span>
+                <span class="badge">REST API</span>
+            </div>
+
+            <div class="feature">
+                <h3>🔒 Secure</h3>
+                <p>Environment variable configuration for secure credential management.</p>
+                <span class="badge">.env Support</span>
+                <span class="badge">SSL Ready</span>
+            </div>
+
+            <div class="feature">
+                <h3>📊 Observable</h3>
+                <p>Built-in metrics and health checks for monitoring and observability.</p>
+                <span class="badge">Actuator</span>
+                <span class="badge">Prometheus</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

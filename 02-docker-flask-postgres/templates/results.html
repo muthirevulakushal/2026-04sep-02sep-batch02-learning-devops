@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Orders</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            margin:40px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        th{
+            background:#0077cc;
+            color:white;
+        }
+
+        td,th{
+            border:1px solid #ddd;
+            padding:10px;
+        }
+
+        tr:nth-child(even){
+            background:#f2f2f2;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>Orders List</h1>
+
+<table>
+
+<tr>
+    <th>ID</th>
+    <th>Customer</th>
+    <th>Product</th>
+    <th>Quantity</th>
+    <th>Order Date</th>
+</tr>
+
+{% for order in orders %}
+<tr>
+    <td>{{ order[0] }}</td>
+    <td>{{ order[1] }}</td>
+    <td>{{ order[2] }}</td>
+    <td>{{ order[3] }}</td>
+    <td>{{ order[4] }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="/">
+    <button>Back Home</button>
+</a>
+
+</body>
+</html>

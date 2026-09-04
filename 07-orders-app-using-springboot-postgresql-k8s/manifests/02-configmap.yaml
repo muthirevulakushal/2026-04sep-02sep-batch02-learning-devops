@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: order-service-config
+  namespace: kumar-order-service
+  labels:
+    app: order-service
+
+data:
+  # =========================
+  # App
+  # =========================
+  SERVER_PORT: "8080"
+  SPRING_APPLICATION_NAME: "aws-order-service"
+
+  # =========================
+  # Database (non-sensitive)
+  # =========================
+  DB_HOST: "maindb.cyh4eu08crnc.us-east-1.rds.amazonaws.com"
+  #DB_HOST: "host.minikube.internal"
+  DB_PORT: "5432"
+  DB_NAME: "postgres"
+
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}"
+  SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
+
+  # =========================
+  # Hikari Pool 
+  # =========================
+  DB_POOL_MAX_SIZE: "20"
+  DB_POOL_MIN_IDLE: "5"
+
+  # =========================
+  # Kafka
+  # =========================
+  KAFKA_BOOTSTRAP_SERVERS: "kafka-service.order-service.svc.cluster.local:9092"
+  KAFKA_CONSUMER_GROUP: "order-service-group"
+  KAFKA_AUTO_OFFSET_RESET: "earliest"
+
+  KAFKA_TOPIC_ORDERS: "order-events"
+  KAFKA_TOPIC_PAYMENTS: "payment-events"
+
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka-service.order-service.svc.cluster.local:9092"
+  SPRING_KAFKA_CONSUMER_GROUP_ID: "order-service-group"
+
+  # =========================
+  # Logging
+  # =========================
+  LOG_LEVEL: "INFO"
+  LOG_LEVEL_KAFKA: "WARN"
+  LOG_LEVEL_HIBERNATE: "WARN"
+  LOG_LEVEL_APP: "DEBUG"
+
+  # =========================
+  # Actuator
+  # =========================
+  MANAGEMENT_HEALTH_DETAILS: "always"
+
+  # =========================
+  # AWS
+  # =========================
+  AWS_REGION: "us-east-1"
+
+  # =========================
+  # Tomcat
+  # =========================
+  TOMCAT_MAX_THREADS: "200"
+  TOMCAT_MIN_SPARE: "10"
