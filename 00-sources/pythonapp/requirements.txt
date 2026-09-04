@@ -1,4 +1,1 @@
 Flask
-Gunicorn
-python-dotenv
-requests
