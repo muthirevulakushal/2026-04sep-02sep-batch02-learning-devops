@@ -1,10 +1,14 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Hello from Docker + Kubernetes! for V12.0.....Release by Kushal , DevOps Engg...04Sep2026 for Batch2.....You are AWSome"
+    return render_template('home.html')
+
+@app.route("/health")
+def health():
+    return {"status": "healthy", "version": "12.0", "environment": "production"}, 200
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5202, debug=False)

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Platform - Kubernetes & Docker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .card:nth-child(1) {
+            animation-delay: 0.3s;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .card:nth-child(3) {
+            animation-delay: 0.5s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .card-link:hover {
+            color: #764ba2;
+        }
+
+        .info-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            animation: slideUp 0.8s ease-out 0.6s both;
+        }
+
+        .info-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-section li {
+            color: #666;
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .info-section li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            animation: fadeIn 1s ease-out 0.8s both;
+        }
+
+        .footer p {
+            font-size: 1em;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        .developer-info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: white;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .developer-info strong {
+            color: #fff;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+
+            .card-grid {
+                gap: 20px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 DevOps Platform</h1>
+            <p>Docker + Kubernetes on AWS - Batch 2 Release V12.0</p>
+        </div>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">🐳</div>
+                <h3>Docker</h3>
+                <p>Containerize your applications with Docker for consistent deployment across environments.</p>
+                <a href="#" class="card-link">Learn More →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">☸️</div>
+                <h3>Kubernetes</h3>
+                <p>Orchestrate and manage containers at scale with Kubernetes on AWS infrastructure.</p>
+                <a href="#" class="card-link">Learn More →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">☁️</div>
+                <h3>AWS Integration</h3>
+                <p>Seamless integration with AWS services including EKS, EC2, and load balancing.</p>
+                <a href="#" class="card-link">Learn More →</a>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Platform Features</h2>
+            <ul>
+                <li>Automated deployment pipelines with CI/CD integration</li>
+                <li>Container orchestration and management at scale</li>
+                <li>Multi-environment support (Dev, Test, Production)</li>
+                <li>Advanced networking and service mesh capabilities</li>
+                <li>Monitoring and logging with Prometheus & Grafana</li>
+                <li>Infrastructure as Code with Terraform</li>
+                <li>Security best practices and RBAC</li>
+                <li>Auto-scaling and load balancing</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>DevOps Learning Platform - Batch 2 | Release V12.0</p>
+            <div class="developer-info">
+                <strong>🔧 Developed by:</strong> Kushal Kumar M, DevOps Engineer<br>
+                <strong>📅 Release Date:</strong> 04 Sep 2026<br>
+                <strong>✨ Status:</strong> You are AWSome! 🌟
+            </div>
+        </div>
+    </div>
+</body>
+</html>
