@@ -11,4 +11,4 @@ def health():
     return {"status": "healthy", "version": "12.0", "environment": "production"}, 200
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5202, debug=False)
+    app.run(host="0.0.0.0", port=5000, debug=False)
