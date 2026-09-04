@@ -1,11 +1,10 @@
-from flask import Flask, render_template
-import os
+from flask import Flask
 
-app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), 'templates'))
+app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template('home.html')
+    return "Hello Kushal from Docker + Kubernetes! for V03.0.....Release by Kushal , DevOps Engg...04Sep2026 for Batch2.....You are Awesome"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
