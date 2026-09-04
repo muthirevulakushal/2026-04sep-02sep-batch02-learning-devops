@@ -7,13 +7,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy in the source code
 COPY app.py ./app.py
+COPY templates ./templates
 EXPOSE 5000
 
 # Setup an app user so the container doesn't run as the root user
 RUN useradd myuser
 USER myuser
 
-CMD ["python", "app.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
 
 # docker images
 # docker ps
